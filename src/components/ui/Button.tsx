@@ -20,13 +20,13 @@ const variantStyles = {
     "secondary":"bg-purple-300 text-purple-500"
 }
 
-const defaultStyles = "rounded-md px-6 py-3 flex justify-center gap-2 hover:-translate-y-1 duration-200";
+const defaultStyles = `rounded-md px-6 py-3 flex justify-center gap-2 hover:-translate-y-1 duration-200  `;
 
 
 
 export const Button = (props:ButtonProps)=> {
 
-    return <button type={props.type} onClick={props.onClick} className={`${variantStyles[props.variant]} ${defaultStyles} ${props.className}  `} disabled={props.disabled}>
+    return <button type={props.type} onClick={props.onClick} className={`${variantStyles[props.variant]} ${defaultStyles} ${props.className}  ${props.disabled ? "bg-gray-500 ":""}`} >
 
         {!props.loading && (
             <>

@@ -4,6 +4,7 @@ import './App.css'
 import { Layout } from './components/mainComponents/Layout'
 import { Homepage } from './components/mainComponents/Homepage'
 import { Signup } from './components/mainComponents/Signup'
+import { Signin } from './components/mainComponents/Signin'
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
       </Route>
 
       <Route path='/signup' element={<Signup />} />
+      <Route path='/signin' element={<Signin />} />
 
     </Routes>
     
