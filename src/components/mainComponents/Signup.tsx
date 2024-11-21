@@ -3,19 +3,17 @@ import main_logo from "../../assets/main_logo.png"
 import { Button } from "../ui/Button";
 import { CircleUser } from "lucide-react";
 import axios from "axios";
-import { useState } from "react";
-import { Alert } from "../ui/Alert";
-import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Alert, AlertContext } from "../ui/Alert";
+import { Link, useNavigate } from "react-router-dom";
 
 export function Signup() {
 
     const [isLoading, setIsLoading] =  useState(false)
 
-    const [accountExist, setAccountExist] = useState(false);
+    const {showAlert} = useContext(AlertContext);
 
-    const [networkError, setNetworkError] = useState(false);
-
-    const [isSuccessful, setIsSuccessful] = useState(false); 
+    const navigate = useNavigate();
 
     interface registrationData {
             email:string;
@@ -32,8 +30,10 @@ export function Signup() {
             const response = await axios.post("http://localhost:3000/api/v1/user/signup", data);
 
             console.log(response.data.message);
-            setIsSuccessful(true)
+            showAlert("Account Created Successfully, Login Here", "positive")
+           
             reset();
+            navigate("/signin")
 
 
 
@@ -43,14 +43,12 @@ export function Signup() {
             console.log(e);
 
             if(e.response.status == 411) {
-                setAccountExist(true);
+                showAlert("Account with this email already exist", "negetive")
 
             }
 
             else {
-
-                setNetworkError(true);
-
+                showAlert("Server Error","negetive");
 
             }
 
@@ -109,7 +107,7 @@ export function Signup() {
     </form>
 
     <span className="text-center block w-full cursor-pointer text-blue-500 mt-3">
-        <Link to={"/signin"} >Signin Here</Link></span>
+        <Link to={"/signin"} >Login Here</Link></span>
 
     
 
@@ -119,24 +117,6 @@ export function Signup() {
 
 
             </div>
-
-
-            {isSuccessful && 
-            <Alert message={"Account Created Successfully, Go to login page"} type={"positive"} />
-            
-}
-
-
-{accountExist && 
-
-<Alert message={"Account with this email already exist"} type={"negetive"} />
-
-}
-
-{networkError &&
-<Alert message={"Server Error"} type={"negetive"} />
-
-}
 
             
            

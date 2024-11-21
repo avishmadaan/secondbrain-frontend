@@ -1,40 +1,53 @@
 import { CircleX } from "lucide-react"
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
-export function Alert(props:{
-    message:string;
-    type:"positive" | "negetive"
-}) {
+export const AlertContext = createContext(null);
 
-    const [visible, setVisible] = useState(false);
+export function AlertProvider({children}) {
 
-    useEffect(() => {
-        show();
-    }, [])
+    const[alert, setAlert] = useState(null);
 
-    function show() {
-        setVisible(true)
+    function showAlert(message:string, type:"positive" |"negetive" ) {
 
-        setTimeout(() => {
-            setVisible(false)
+        setAlert({message, type});
+
+        setTimeout(()=> {
+            setAlert(null);
         }, 5000)
-
-
     }
 
     function closeAlert() {
-        setVisible(false);
+        setAlert(null);
+
     }
+
+    return (
+        <AlertContext.Provider value={{showAlert}}>
+            {children}
+            {alert && <Alert closeAlert={closeAlert} message={alert.message} type={alert.type} /> }
+
+
+        </AlertContext.Provider>
+    )
+
+
+}
+
+export function Alert(props:{
+    message:string;
+    type:"positive" | "negetive";
+    closeAlert?:(val:boolean)=> void;
+}) {
+
 
 
     return (
 
-        <div className={`bg-white p-3 border  rounded-md flex items-center justify-center absolute duration-300 -traslate-y-8 top-8 
-        ${visible?"opacity-100":"opacity-0"}
+        <div className={`bg-white p-3 border  rounded-md flex items-center justify-center absolute duration-300  top-8 left-1/2 -translate-x-1/2 shadow-lg
         ${props.type =="positive"?"border-green-500":"border-red-500"} `}>
 
 
-            <CircleX size={20} onClick={closeAlert} className= {`mr-2 cursor-pointer ${props.type =="positive"?"text-green-500":"text-red-500"}  `} />
+            <CircleX size={20} onClick={props.closeAlert} className= {`mr-2 cursor-pointer ${props.type =="positive"?"text-green-500":"text-red-500"}  `} />
 
             {props.message}
         </div>

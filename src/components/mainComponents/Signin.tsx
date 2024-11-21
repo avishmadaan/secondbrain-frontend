@@ -2,14 +2,29 @@ import { useForm } from "react-hook-form"
 import main_logo from "../../assets/main_logo.png"
 import { Button } from "../ui/Button";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { LogIn } from "lucide-react";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import Cookies from "js-cookie"
+import { Alert, AlertContext } from "../ui/Alert";
 
 export function Signin() {
 
+    useEffect(()=> {
+
+       if(Cookies.get("token"))  {
+        navigate("/home")
+       }
+
+    }, [])
+
+    const navigate = useNavigate();
+
     
-    const [isLoading, setIsLoading] =  useState(false)
+    const [isLoading, setIsLoading] =  useState(false);
+
+
+    const {showAlert} = useContext(AlertContext);
 
     interface registrationData {
         email:string;
@@ -20,6 +35,47 @@ export function Signin() {
     const {register, handleSubmit, reset , formState:{errors, isValid}} = useForm();
 
     const onSubmit = async (data:registrationData) => {
+
+        try {
+
+            setIsLoading(true);
+            const response = await axios.post("http://localhost:3000/api/v1/user/signin", data);
+
+            const token = response.data.token;
+            console.log(token)
+
+            Cookies.set("token", token, {expires: 7, path:"/"})
+
+            showAlert("Login Success","positive");
+
+            navigate("/home")
+
+        }
+
+        catch(e) {
+            console.log(e.response);
+
+            if(e.response.status == 411) {
+                showAlert("Incorrect Credentials","negetive")
+
+            }
+
+            else {
+                showAlert("Server Error","negetive")
+
+
+
+            }
+
+
+
+
+        }
+
+        finally{
+            setIsLoading(false);
+
+        }
 
 
     }
