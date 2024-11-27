@@ -18,6 +18,7 @@ export function PublicVisible() {
    async function checkIfAvailable() {
 
     setLoading(true)
+    console.log("checking")
 
     try {
         setLoading(true);
@@ -25,6 +26,7 @@ export function PublicVisible() {
         const response =  await axios.get("http://localhost:3000/api/v1/brain/public/"+hash)
      
          const data = response.data;
+         console.log(data)
          setAvailable(true);
          setContent(response.data.content);
        
@@ -57,14 +59,14 @@ export function PublicVisible() {
 
             {loading ? (<Loader2 className="animate-spin" size={48} />): (
                 <>
-   {available?(
+   {available && content.length >0?(
     <>
   
 
     {content && (
         <div className="grid grid-cols-2 md:grid-cols-3 gap-5">{content.map((content, index) => {
 
-           return <ContentBox link={content.link} type={content.type} title={content.title} tags={content.tags} description={content.description} id={content._id}></ContentBox>
+           return <ContentBox key={index} link={content.link} type={content.type} title={content.title} tags={content.tags} description={content.description} id={content._id}></ContentBox>
            
        })}</div>)
     }

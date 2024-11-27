@@ -1,11 +1,15 @@
 import { CircleX } from "lucide-react"
 import { createContext, useEffect, useState } from "react";
 
-export const AlertContext = createContext(null);
+interface AlertContextType {
+    showAlert:(message:string, type:"positive" | "negetive") => void
+}
 
-export function AlertProvider({children}) {
+export const AlertContext = createContext<AlertContextType | null>(null);
 
-    const[alert, setAlert] = useState(null);
+export function AlertProvider({children}:{children: React.ReactNode}) {
+
+    const[alert, setAlert] = useState<{message:string, type:"positive" |"negetive"} | null>(null);
 
     function showAlert(message:string, type:"positive" |"negetive" ) {
 
@@ -47,7 +51,7 @@ export function Alert(props:{
         ${props.type =="positive"?"border-green-500":"border-red-500"} `}>
 
 
-            <CircleX size={20} onClick={props.closeAlert} className= {`mr-2 cursor-pointer ${props.type =="positive"?"text-green-500":"text-red-500"}  `} />
+            <CircleX size={20} onClick={() => props.closeAlert?.(true)} className= {`mr-2 cursor-pointer ${props.type =="positive"?"text-green-500":"text-red-500"}  `} />
 
             {props.message}
         </div>

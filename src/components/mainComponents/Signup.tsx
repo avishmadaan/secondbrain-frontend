@@ -70,7 +70,7 @@ export function Signup() {
         <div className="flex flex-col justify-center items-center bg-softGray w-full h-screen">
 
 
-            <div className="bg-white p-10 border border-gray-200 rounded-md w-[40%] flex flex-col justify-center items-center" id="internal ">
+            <div className="bg-white p-10 border border-gray-200 rounded-md md:w-[40%] flex flex-col justify-center items-center" id="internal ">
 
             <img className="w-1/3" src={main_logo} alt="main logo" />
 

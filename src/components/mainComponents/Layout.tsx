@@ -4,7 +4,6 @@ import Cookies from "js-cookie";
 import {  useNavigate } from "react-router-dom";
 import { createContext, useEffect, useState } from "react";
 import  {jwtDecode}  from "jwt-decode";
-import { Homepage } from "./Homepage";
 
 interface userContextType {
 
@@ -47,7 +46,7 @@ export function Layout() {
                 <Navbar ></Navbar>
             </div>
 
-            <div className="bg-softGray h-screen w-full p-6
+            <div className="bg-softGray min-h-screen w-full p-6
             ">
               <Outlet />
                 

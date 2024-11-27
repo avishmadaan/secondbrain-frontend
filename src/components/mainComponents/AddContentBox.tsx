@@ -1,10 +1,11 @@
 import { CircleX, Plus } from "lucide-react";
-import { set, useForm } from "react-hook-form";
+import {useForm } from "react-hook-form";
 import { Button } from "../ui/Button";
 import { useContext, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie"
 import { AlertContext } from "../ui/Alert";
+import { useContent } from "./useContent";
 
 export function AddContentBox(props:{
     userId:string | null | undefined,
@@ -13,17 +14,21 @@ export function AddContentBox(props:{
 
     const [isLoading, setIsLoading] =  useState(false)
 
-    const {showAlert} = useContext(AlertContext);
+
+      // Context for showing alerts
+  const alertContext = useContext(AlertContext);
+  const showAlert = alertContext?.showAlert;
+
+    
+
+    const contentContext  = useContent();
+    const fetchAllContents = contentContext?.fetchAllContents;
 
  const contentTypes = ["tweet", "video", "document","link"];
 
     
-    interface registrationData {
-        email:string;
-        password:string
-}
 
-    const {register, handleSubmit, reset , formState:{errors, isValid}} = useForm();
+    const {register, handleSubmit , formState:{errors, isValid}} = useForm();
 
     const onSubmit = async (data) => {
 
@@ -48,12 +53,23 @@ export function AddContentBox(props:{
             })
 
             console.log(response.data)
-            showAlert("Content Added Successfully","positive");
-            props.closeDialog(false)
+              // Check if showAlert is defined before calling it
+      if (showAlert) {
+        showAlert("Content Added Successfully", "positive");
+      }
+            props.closeDialog(false);
+            console.log("before fetchnig called");
+
+            if(fetchAllContents) {
+
+                fetchAllContents();
+            }
+            console.log("after fetchnig called")
 
         }
 
         catch(e) {
+            if(axios.isAxiosError(e)) 
             console.log(e.response)
         }
 

@@ -83,7 +83,7 @@ export function Signin() {
     return (
         <div className="flex flex-col justify-center items-center bg-softGray w-full h-screen">
 
-<div className="bg-white p-10 border border-gray-200 rounded-md w-[40%] flex flex-col justify-center items-center" id="internal ">
+<div className="bg-white p-10 border border-gray-200 rounded-md w-[80%] md:w-[40%] flex flex-col justify-center items-center" id="internal ">
 
 <img className="w-1/4" src={main_logo} alt="main logo" />
 

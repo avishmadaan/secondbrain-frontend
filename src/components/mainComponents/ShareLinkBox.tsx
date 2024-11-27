@@ -20,18 +20,21 @@ getLink()
     }, []);
 
 async function getLink() {
-    const hash = "share"+ props.userId + "addads";
 
     const token = Cookies.get("token")
 
-const response =await axios.post("http://localhost:3000/api/v1/brain/share", {hash}, {
+const response =await axios.post("http://localhost:3000/api/v1/brain/share", {
+    "share":true,
+}, {
 
     headers:{
         Authorization:token
     }
 });
 
-const link = "http://localhost:5173/public/"+hash;
+const link = "http://localhost:5173/public/"+response.data.message;
+
+console.log("your hash :"+response.data.message);
 
 setShareLink(link)
 

@@ -13,12 +13,14 @@ import { Tags } from './components/mainComponents/Tags'
 import { AllContent } from './components/mainComponents/AllContent'
 import { Documents } from './components/mainComponents/Documents'
 import { Links } from './components/mainComponents/Links'
+import { ContentProvider } from './components/mainComponents/useContent'
 
 function App() {
 
 
   return (
     <>
+    <ContentProvider>
     <BrowserRouter>
     <AlertProvider>
     
@@ -44,6 +46,7 @@ function App() {
     </AlertProvider>
     
     </BrowserRouter>
+    </ContentProvider>
 
      
     </>
